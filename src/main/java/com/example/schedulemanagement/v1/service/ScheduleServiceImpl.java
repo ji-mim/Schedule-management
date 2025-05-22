@@ -28,4 +28,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         return scheduleRepository.findAll(username, updatedAt);
     }
+
+    @Override
+    public ScheduleResponseDto findScheduleById(Long id) {
+
+        return scheduleRepository.findByIdOrElseThrow(id);
+    }
 }

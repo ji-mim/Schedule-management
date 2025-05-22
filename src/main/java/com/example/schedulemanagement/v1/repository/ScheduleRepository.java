@@ -10,4 +10,6 @@ public interface ScheduleRepository {
     ScheduleResponseDto save(Schedule schedule);
 
     List<ScheduleResponseDto> findAll(String username, LocalDate updatedAt);
+
+    ScheduleResponseDto findByIdOrElseThrow(Long id);
 }

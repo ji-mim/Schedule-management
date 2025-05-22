@@ -2,12 +2,17 @@ package com.example.schedulemanagement.v1.repository;
 
 import com.example.schedulemanagement.v1.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.v1.entity.Schedule;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +52,30 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return jdbcTemplate.query(
                 sql,
                 new Object[]{username, updatedAt},
-                (rs, rowNum) -> new ScheduleResponseDto(
+                scheduleRowMapper()
+        );
+    }
+
+    @Override
+    public ScheduleResponseDto findByIdOrElseThrow(Long id) {
+        String sql = "SELECT * FROM schedule s where s.id = ?";
+        List<ScheduleResponseDto> result = jdbcTemplate.query(sql, scheduleRowMapper(), id);
+        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists id = " + id));
+    }
+
+
+    private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
+        return new RowMapper<ScheduleResponseDto>() {
+            @Override
+            public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ScheduleResponseDto(
                         rs.getLong("id"),
                         rs.getString("username"),
                         rs.getString("contents"),
                         rs.getDate("created_at").toLocalDate(),
                         rs.getDate("updated_at").toLocalDate()
-                        )
-        );
-    }}
+                );
+            }
+        };
+    }
+}
