@@ -57,19 +57,42 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
     @Override
-    public ScheduleResponseDto findByIdOrElseThrow(Long id) {
+    public Schedule findByIdOrElseThrow(Long id) {
         String sql = "SELECT * FROM schedule s where s.id = ?";
-        List<ScheduleResponseDto> result = jdbcTemplate.query(sql, scheduleRowMapper(), id);
+        List<Schedule> result = jdbcTemplate.query(sql, scheduleRowMapper2(), id);
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists id = " + id));
     }
 
+    @Override
+    public void updateSchedule(Long id, String username, String contents, LocalDate updatedAt) {
+        jdbcTemplate.update("UPDATE schedule SET username = ?, contents = ?, updated_at = ? WHERE id = ?", username, contents, updatedAt, id);
+    }
 
+
+    //Dto 반환
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
         return new RowMapper<ScheduleResponseDto>() {
             @Override
             public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new ScheduleResponseDto(
                         rs.getLong("id"),
+                        rs.getString("username"),
+                        rs.getString("contents"),
+                        rs.getDate("created_at").toLocalDate(),
+                        rs.getDate("updated_at").toLocalDate()
+                );
+            }
+        };
+    }
+
+    //엔티티 반환
+    private RowMapper<Schedule> scheduleRowMapper2() {
+        return new RowMapper<Schedule>() {
+            @Override
+            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Schedule(
+                        rs.getLong("id"),
+                        rs.getString("password"),
                         rs.getString("username"),
                         rs.getString("contents"),
                         rs.getDate("created_at").toLocalDate(),

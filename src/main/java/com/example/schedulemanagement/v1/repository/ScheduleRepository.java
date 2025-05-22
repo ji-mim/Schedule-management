@@ -11,5 +11,7 @@ public interface ScheduleRepository {
 
     List<ScheduleResponseDto> findAll(String username, LocalDate updatedAt);
 
-    ScheduleResponseDto findByIdOrElseThrow(Long id);
+    Schedule findByIdOrElseThrow(Long id);
+
+    void updateSchedule(Long id, String username, String contents, LocalDate updatedAt);
 }

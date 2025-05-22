@@ -4,7 +4,9 @@ import com.example.schedulemanagement.v1.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.v1.entity.Schedule;
 import com.example.schedulemanagement.v1.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,6 +34,25 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto findScheduleById(Long id) {
 
-        return scheduleRepository.findByIdOrElseThrow(id);
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+
+        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUsername(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
+
+
+    }
+
+    @Override
+    public ScheduleResponseDto updateSchedule(Long id, String password, String username, String contents, LocalDate updatedAt) {
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+
+        //비밀번호 같은지 확인하는 로직
+        if (!findSchedule.getPassword().equals(password)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is not same");
+        }
+
+        scheduleRepository.updateSchedule(id, username, contents, updatedAt);
+
+        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUsername(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
+
     }
 }

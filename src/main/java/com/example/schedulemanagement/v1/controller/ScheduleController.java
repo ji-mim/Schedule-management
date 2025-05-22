@@ -2,6 +2,7 @@ package com.example.schedulemanagement.v1.controller;
 
 import com.example.schedulemanagement.v1.dto.CreateRequestScheduleDto;
 import com.example.schedulemanagement.v1.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.v1.dto.UpdateRequestScheduleDto;
 import com.example.schedulemanagement.v1.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,4 +48,13 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
     }
 
+    @PatchMapping("/{id}")
+    ResponseEntity<ScheduleResponseDto> updateSchedule(
+            @PathVariable Long id,
+            @RequestBody UpdateRequestScheduleDto requestDto
+    ) {
+        ScheduleResponseDto scheduleResponseDto = scheduleService.updateSchedule(id, requestDto.getPassword(), requestDto.getUsername(), requestDto.getContents(), LocalDate.now());
+
+        return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
+    }
 }
