@@ -1,14 +1,14 @@
-package com.example.schedulemanagement.v1.service;
+package com.example.schedulemanagement.service;
 
-import com.example.schedulemanagement.v1.dto.UserResponseDto;
-import com.example.schedulemanagement.v1.entity.User;
-import com.example.schedulemanagement.v1.repository.UserRepository;
+import com.example.schedulemanagement.dto.UserResponseDto;
+import com.example.schedulemanagement.entity.User;
+import com.example.schedulemanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 

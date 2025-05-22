@@ -1,8 +1,8 @@
-package com.example.schedulemanagement.v1.controller;
+package com.example.schedulemanagement.controller;
 
-import com.example.schedulemanagement.v1.dto.CreateRequestUserDto;
-import com.example.schedulemanagement.v1.dto.UserResponseDto;
-import com.example.schedulemanagement.v1.service.UserService;
+import com.example.schedulemanagement.dto.CreateRequestUserDto;
+import com.example.schedulemanagement.dto.UserResponseDto;
+import com.example.schedulemanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

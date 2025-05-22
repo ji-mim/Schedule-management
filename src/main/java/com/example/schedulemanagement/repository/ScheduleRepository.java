@@ -1,7 +1,7 @@
-package com.example.schedulemanagement.v1.repository;
+package com.example.schedulemanagement.repository;
 
-import com.example.schedulemanagement.v1.dto.ScheduleResponseDto;
-import com.example.schedulemanagement.v1.entity.Schedule;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.entity.Schedule;
 
 import java.time.LocalDate;
 import java.util.List;

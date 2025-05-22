@@ -1,4 +1,4 @@
-package com.example.schedulemanagement.v1.entity;
+package com.example.schedulemanagement.entity;
 
 import lombok.Getter;
 import lombok.Setter;

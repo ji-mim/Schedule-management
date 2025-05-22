@@ -1,8 +1,7 @@
-package com.example.schedulemanagement.v1.repository;
+package com.example.schedulemanagement.repository;
 
-import com.example.schedulemanagement.v1.dto.ScheduleResponseDto;
-import com.example.schedulemanagement.v1.dto.UserResponseDto;
-import com.example.schedulemanagement.v1.entity.User;
+import com.example.schedulemanagement.dto.UserResponseDto;
+import com.example.schedulemanagement.entity.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;

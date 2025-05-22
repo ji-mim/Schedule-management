@@ -1,8 +1,8 @@
-package com.example.schedulemanagement.v1.service;
+package com.example.schedulemanagement.service;
 
-import com.example.schedulemanagement.v1.dto.ScheduleResponseDto;
-import com.example.schedulemanagement.v1.entity.Schedule;
-import com.example.schedulemanagement.v1.repository.ScheduleRepository;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
+import com.example.schedulemanagement.entity.Schedule;
+import com.example.schedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
