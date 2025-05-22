@@ -55,4 +55,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUsername(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
 
     }
+
+    @Override
+    public void deleteSchedule(Long id) {
+        // id가 존재하는지 확인
+        scheduleRepository.findByIdOrElseThrow(id);
+        scheduleRepository.deleteSchedule(id);
+    }
 }

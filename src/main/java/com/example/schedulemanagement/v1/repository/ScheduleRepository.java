@@ -14,4 +14,6 @@ public interface ScheduleRepository {
     Schedule findByIdOrElseThrow(Long id);
 
     void updateSchedule(Long id, String username, String contents, LocalDate updatedAt);
+
+    void deleteSchedule(Long id);
 }
