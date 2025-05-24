@@ -1,9 +1,6 @@
 package com.example.schedulemanagement.controller;
 
-import com.example.schedulemanagement.dto.CreateRequestScheduleDto;
-import com.example.schedulemanagement.dto.DeleteRequestScheduleDto;
-import com.example.schedulemanagement.dto.ScheduleResponseDto;
-import com.example.schedulemanagement.dto.UpdateRequestScheduleDto;
+import com.example.schedulemanagement.dto.*;
 import com.example.schedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -69,4 +66,20 @@ public class ScheduleController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/page")
+    ResponseEntity<List<PagedScheduleResponseDto>> findAllScheduleByPage(
+            @RequestParam(required = false) String userEmail,
+            @RequestParam(required = false) LocalDate updatedAt,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        LocalDateTime updatedDateTime = updatedAt != null ? updatedAt.atStartOfDay() : null;
+
+        List<PagedScheduleResponseDto> scheduleResponseDtoList = scheduleService.findPagedSchedules(userEmail, updatedDateTime, page, size);
+
+
+        return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
+    }
+
 }

@@ -8,4 +8,5 @@ public interface UserService {
 
     UserResponseDto saveUser(String email, String name, LocalDateTime createdAt, LocalDateTime updatedAt);
 
+
 }

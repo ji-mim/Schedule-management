@@ -1,5 +1,6 @@
 package com.example.schedulemanagement.service;
 
+import com.example.schedulemanagement.dto.PagedScheduleResponseDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import com.example.schedulemanagement.repository.ScheduleRepository;
@@ -72,5 +73,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
 
         scheduleRepository.deleteSchedule(id);
+    }
+
+    @Override
+    public List<PagedScheduleResponseDto> findPagedSchedules(String userEmail, LocalDateTime updatedAt, int page, int size) {
+        return scheduleRepository.findPagedSchedules(userEmail, updatedAt, page, size);
     }
 }

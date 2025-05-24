@@ -1,5 +1,6 @@
 package com.example.schedulemanagement.service;
 
+import com.example.schedulemanagement.dto.PagedScheduleResponseDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 
 import java.time.LocalDateTime;
@@ -15,4 +16,6 @@ public interface ScheduleService {
     ScheduleResponseDto updateSchedule(Long id, String password, String userEmail, String contents, LocalDateTime updatedAt);
 
     void deleteSchedule(Long id, String password);
+
+    List<PagedScheduleResponseDto> findPagedSchedules(String userEmail, LocalDateTime updatedAt, int page, int size);
 }
