@@ -12,7 +12,7 @@ public class ScheduleResponseDto {
 
     private Long id;
 
-    private String username;
+    private String userEmail;
 
     private String contents;
 

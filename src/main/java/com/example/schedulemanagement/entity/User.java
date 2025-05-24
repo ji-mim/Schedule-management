@@ -1,16 +1,21 @@
 package com.example.schedulemanagement.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@AllArgsConstructor
 public class User {
 
-    private String name;
+    private final String email;
 
-    public User(String name) {
-        this.name = name;
-    }
+    private final String name;
+
+    private final LocalDateTime createdAt;
+
+    private final LocalDateTime updatedAt;
+
 }
 

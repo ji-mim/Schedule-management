@@ -36,24 +36,24 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("contents", schedule.getContents());
-        parameters.put("username", schedule.getUsername());
+        parameters.put("user_email", schedule.getUserEmail());
         parameters.put("password", schedule.getPassword());
         parameters.put("created_at", schedule.getCreatedAt());
         parameters.put("updated_at", schedule.getUpdatedAt());
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new ScheduleResponseDto(key.longValue(), schedule.getUsername(), schedule.getContents(), schedule.getCreatedAt(), schedule.getUpdatedAt());
+        return new ScheduleResponseDto(key.longValue(), schedule.getUserEmail(), schedule.getContents(), schedule.getCreatedAt(), schedule.getUpdatedAt());
 
 
     }
 
     @Override
-    public List<ScheduleResponseDto> findAll(String username, LocalDateTime updatedAt) {
-        String sql = "SELECT * FROM schedule s WHERE s.username = ? OR DATE(s.updated_at) = ? ORDER BY s.updated_at DESC ";
+    public List<ScheduleResponseDto> findAll(String userEmail, LocalDateTime updatedAt) {
+        String sql = "SELECT * FROM schedule s WHERE s.user_email = ? OR DATE(s.updated_at) = ? ORDER BY s.updated_at DESC ";
         return jdbcTemplate.query(
                 sql,
-                new Object[]{username, updatedAt},
+                new Object[]{userEmail, updatedAt},
                 scheduleRowMapper()
         );
     }
@@ -69,8 +69,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
     @Override
-    public void updateSchedule(Long id, String username, String contents, LocalDateTime updatedAt) {
-        jdbcTemplate.update("UPDATE schedule SET username = ?, contents = ?, updated_at = ? WHERE id = ?", username, contents, updatedAt, id);
+    public void updateSchedule(Long id, String userEmail, String contents, LocalDateTime updatedAt) {
+        jdbcTemplate.update("UPDATE schedule SET user_email = ?, contents = ?, updated_at = ? WHERE id = ?", userEmail, contents, updatedAt, id);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
             public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new ScheduleResponseDto(
                         rs.getLong("id"),
-                        rs.getString("username"),
+                        rs.getString("user_email"),
                         rs.getString("contents"),
                         rs.getTimestamp("created_at").toLocalDateTime(),
                         rs.getTimestamp("updated_at").toLocalDateTime()
@@ -103,7 +103,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                 return new Schedule(
                         rs.getLong("id"),
                         rs.getString("password"),
-                        rs.getString("username"),
+                        rs.getString("user_email"),
                         rs.getString("contents"),
                         rs.getTimestamp("created_at").toLocalDateTime(),
                         rs.getTimestamp("updated_at").toLocalDateTime()

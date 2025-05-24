@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class CreateRequestScheduleDto {
 
-    private String username;
+    private String userEmail;
 
     private String password;
 

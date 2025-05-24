@@ -9,11 +9,11 @@ import java.util.List;
 public interface ScheduleRepository {
     ScheduleResponseDto save(Schedule schedule);
 
-    List<ScheduleResponseDto> findAll(String username, LocalDateTime updatedAt);
+    List<ScheduleResponseDto> findAll(String userEmail, LocalDateTime updatedAt);
 
     Schedule findByIdOrElseThrow(Long id);
 
-    void updateSchedule(Long id, String username, String contents, LocalDateTime updatedAt);
+    void updateSchedule(Long id, String userEmail, String contents, LocalDateTime updatedAt);
 
     void deleteSchedule(Long id);
 }

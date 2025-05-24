@@ -2,8 +2,10 @@ package com.example.schedulemanagement.service;
 
 import com.example.schedulemanagement.dto.UserResponseDto;
 
+import java.time.LocalDateTime;
+
 public interface UserService {
 
-    UserResponseDto saveUser(String name);
+    UserResponseDto saveUser(String email, String name, LocalDateTime createdAt, LocalDateTime updatedAt);
 
 }

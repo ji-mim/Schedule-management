@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -20,8 +22,7 @@ public class UserController {
 
     @PostMapping
     ResponseEntity<UserResponseDto> saveUser(@RequestBody CreateRequestUserDto requestUserDto) {
-        UserResponseDto userResponseDto = userService.saveUser(requestUserDto.getName());
-
+        UserResponseDto userResponseDto = userService.saveUser(requestUserDto.getEmail(), requestUserDto.getName(), LocalDateTime.now(), LocalDateTime.now());
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
