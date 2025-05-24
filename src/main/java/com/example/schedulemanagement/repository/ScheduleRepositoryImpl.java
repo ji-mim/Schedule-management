@@ -1,5 +1,6 @@
 package com.example.schedulemanagement.repository;
 
+import com.example.schedulemanagement.dto.PagedScheduleResponseDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import lombok.extern.slf4j.Slf4j;
@@ -78,6 +79,24 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         jdbcTemplate.update("DELETE FROM schedule WHERE id = ?", id);
     }
 
+    @Override
+    public List<PagedScheduleResponseDto> findPagedSchedules(String userEmail, LocalDateTime updatedAt, int page, int size) {
+        String sql = """
+        SELECT s.*, u.name
+        FROM schedule s
+        JOIN user u ON s.user_email = u.email
+        WHERE s.user_email = ? OR DATE(s.updated_at) = ?
+        ORDER BY s.updated_at DESC
+        LIMIT ? OFFSET ?
+    """;
+        return jdbcTemplate.query(
+                sql,
+                new Object[]{userEmail, updatedAt, size, page * size},
+                scheduleRowMapper3()
+        );
+
+    }
+
 
     //Dto 반환
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
@@ -104,6 +123,23 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                         rs.getLong("id"),
                         rs.getString("password"),
                         rs.getString("user_email"),
+                        rs.getString("contents"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()
+                );
+            }
+        };
+    }
+
+    //엔티티 반환
+    private RowMapper<PagedScheduleResponseDto> scheduleRowMapper3() {
+        return new RowMapper<PagedScheduleResponseDto>() {
+            @Override
+            public PagedScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new PagedScheduleResponseDto(
+                        rs.getLong("id"),
+                        rs.getString("user_email"),
+                        rs.getString("name"),
                         rs.getString("contents"),
                         rs.getTimestamp("created_at").toLocalDateTime(),
                         rs.getTimestamp("updated_at").toLocalDateTime()

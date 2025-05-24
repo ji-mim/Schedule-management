@@ -1,5 +1,6 @@
 package com.example.schedulemanagement.repository;
 
+import com.example.schedulemanagement.dto.PagedScheduleResponseDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 
@@ -16,4 +17,6 @@ public interface ScheduleRepository {
     void updateSchedule(Long id, String userEmail, String contents, LocalDateTime updatedAt);
 
     void deleteSchedule(Long id);
+
+    List<PagedScheduleResponseDto> findPagedSchedules(String userEmail, LocalDateTime updatedAt, int page, int size);
 }
