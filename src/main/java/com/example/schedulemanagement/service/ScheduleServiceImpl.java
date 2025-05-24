@@ -56,7 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         scheduleRepository.updateSchedule(id, userEmail, contents, updatedAt);
 
-        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUserEmail(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
+        return new ScheduleResponseDto(id, userEmail, contents, findSchedule.getCreatedAt(), updatedAt);
 
     }
 
