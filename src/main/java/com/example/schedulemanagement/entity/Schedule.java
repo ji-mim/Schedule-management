@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,12 +19,12 @@ public class Schedule {
 
     private String contents;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
 
-    public Schedule(Long id, String password, String username, String contents, LocalDate createdAt, LocalDate updatedAt) {
+    public Schedule(Long id, String password, String username, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.password = password;
         this.username = username;
@@ -31,7 +32,7 @@ public class Schedule {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    public Schedule(String password, String username, String contents, LocalDate createdAt, LocalDate updatedAt) {
+    public Schedule(String password, String username, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.password = password;
         this.username = username;
         this.contents = contents;
@@ -39,12 +40,12 @@ public class Schedule {
         this.updatedAt = updatedAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt, LocalDate updatedAt) {
+    public void setCreatedAt(LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

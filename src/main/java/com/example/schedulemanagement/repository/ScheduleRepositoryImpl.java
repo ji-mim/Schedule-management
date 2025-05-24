@@ -2,6 +2,7 @@ package com.example.schedulemanagement.repository;
 
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,12 +14,13 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
+@Slf4j
 public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -47,8 +49,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
     @Override
-    public List<ScheduleResponseDto> findAll(String username, LocalDate updatedAt) {
-        String sql = "SELECT * FROM schedule s WHERE s.username = ? OR s.updated_at = ? ORDER BY s.updated_at desc ";
+    public List<ScheduleResponseDto> findAll(String username, LocalDateTime updatedAt) {
+        String sql = "SELECT * FROM schedule s WHERE s.username = ? OR DATE(s.updated_at) = ? ORDER BY s.updated_at DESC ";
         return jdbcTemplate.query(
                 sql,
                 new Object[]{username, updatedAt},
@@ -60,11 +62,14 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     public Schedule findByIdOrElseThrow(Long id) {
         String sql = "SELECT * FROM schedule s where s.id = ?";
         List<Schedule> result = jdbcTemplate.query(sql, scheduleRowMapper2(), id);
-        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists id = " + id));
+        return result.stream().findAny().orElseThrow(() -> {
+            log.warn("조회 실패: 존재하지 않는 ID {}", id);
+            return new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists id = " + id);
+        });
     }
 
     @Override
-    public void updateSchedule(Long id, String username, String contents, LocalDate updatedAt) {
+    public void updateSchedule(Long id, String username, String contents, LocalDateTime updatedAt) {
         jdbcTemplate.update("UPDATE schedule SET username = ?, contents = ?, updated_at = ? WHERE id = ?", username, contents, updatedAt, id);
     }
 
@@ -83,8 +88,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                         rs.getLong("id"),
                         rs.getString("username"),
                         rs.getString("contents"),
-                        rs.getDate("created_at").toLocalDate(),
-                        rs.getDate("updated_at").toLocalDate()
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()
                 );
             }
         };
@@ -100,8 +105,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                         rs.getString("password"),
                         rs.getString("username"),
                         rs.getString("contents"),
-                        rs.getDate("created_at").toLocalDate(),
-                        rs.getDate("updated_at").toLocalDate()
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()
                 );
             }
         };
