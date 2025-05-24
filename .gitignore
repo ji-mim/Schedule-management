@@ -38,3 +38,4 @@ application.properties
 # === 기타 ===
 test/
 schedule.drawio
+*.png
