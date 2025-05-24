@@ -1,6 +1,7 @@
 package com.example.schedulemanagement.controller;
 
 import com.example.schedulemanagement.dto.CreateRequestScheduleDto;
+import com.example.schedulemanagement.dto.DeleteRequestScheduleDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.dto.UpdateRequestScheduleDto;
 import com.example.schedulemanagement.service.ScheduleService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -19,14 +21,15 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
+    // LV.1 시작
     @PostMapping
     ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody CreateRequestScheduleDto requestDto) {
         ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(
                 requestDto.getPassword(),
                 requestDto.getContents(),
                 requestDto.getUsername(),
-                LocalDate.now(),
-                LocalDate.now());
+                LocalDateTime.now(),
+                LocalDateTime.now());
 
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
     }
@@ -36,8 +39,8 @@ public class ScheduleController {
             @RequestParam(required = false) String username,
             @RequestParam(required = false) LocalDate updatedAt
     ) {
-
-        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll(username, updatedAt);
+        LocalDateTime updatedDateTime = updatedAt != null ? updatedAt.atStartOfDay() : null;
+        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll(username, updatedDateTime);
 
         return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
     }
@@ -48,19 +51,21 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
     }
 
+    //LV.2 시작
     @PatchMapping("/{id}")
     ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
             @RequestBody UpdateRequestScheduleDto requestDto
     ) {
-        ScheduleResponseDto scheduleResponseDto = scheduleService.updateSchedule(id, requestDto.getPassword(), requestDto.getUsername(), requestDto.getContents(), LocalDate.now());
+        ScheduleResponseDto scheduleResponseDto = scheduleService.updateSchedule(id, requestDto.getPassword(), requestDto.getUsername(), requestDto.getContents(), LocalDateTime.now());
 
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
-        scheduleService.deleteSchedule(id);
+    ResponseEntity<Void> deleteSchedule(@PathVariable Long id,
+                                        @RequestBody DeleteRequestScheduleDto requestScheduleDto) {
+        scheduleService.deleteSchedule(id, requestScheduleDto.getPassword());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
