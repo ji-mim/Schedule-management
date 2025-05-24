@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,16 +21,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
     @Override
-    public ScheduleResponseDto saveSchedule(String password, String contents, String username, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        Schedule schedule = new Schedule(password, username, contents, createdAt, updatedAt);
+    public ScheduleResponseDto saveSchedule(String password, String contents, String userEmail, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        Schedule schedule = new Schedule(password, userEmail, contents, createdAt, updatedAt);
 
         return scheduleRepository.save(schedule);
     }
 
     @Override
-    public List<ScheduleResponseDto> findAll(String username, LocalDateTime updatedAt) {
+    public List<ScheduleResponseDto> findAll(String userEmail, LocalDateTime updatedAt) {
 
-        return scheduleRepository.findAll(username, updatedAt);
+        return scheduleRepository.findAll(userEmail, updatedAt);
     }
 
     @Override
@@ -39,13 +38,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
-        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUsername(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
+        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUserEmail(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
 
 
     }
 
     @Override
-    public ScheduleResponseDto updateSchedule(Long id, String password, String username, String contents, LocalDateTime updatedAt) {
+    public ScheduleResponseDto updateSchedule(Long id, String password, String userEmail, String contents, LocalDateTime updatedAt) {
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
         //비밀번호 같은지 확인하는 로직
@@ -54,9 +53,9 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is not same");
         }
 
-        scheduleRepository.updateSchedule(id, username, contents, updatedAt);
+        scheduleRepository.updateSchedule(id, userEmail, contents, updatedAt);
 
-        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUsername(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
+        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getUserEmail(), findSchedule.getContents(), findSchedule.getCreatedAt(), findSchedule.getUpdatedAt());
 
     }
 

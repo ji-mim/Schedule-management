@@ -2,50 +2,39 @@ package com.example.schedulemanagement.entity;
 
 
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 public class Schedule {
 
-    private Long id;
+    private final Long id;
 
-    private String password;
+    private final String password;
 
-    private String username;
+    private final String userEmail;
 
-    private String contents;
+    private final String contents;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+    private final LocalDateTime updatedAt;
 
 
-    public Schedule(Long id, String password, String username, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Schedule(Long id, String password, String userEmail, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.password = password;
-        this.username = username;
+        this.userEmail = userEmail;
         this.contents = contents;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    public Schedule(String password, String username, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Schedule(String password, String userEmail, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = null; // id를 final로 만들기 위해 필요함
         this.password = password;
-        this.username = username;
+        this.userEmail = userEmail;
         this.contents = contents;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

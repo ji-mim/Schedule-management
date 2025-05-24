@@ -27,11 +27,13 @@ public class UserRepositoryImpl implements UserRepository {
 
         Map<String, Object> parameters = new HashMap<>();
 
+        parameters.put("email", user.getEmail());
         parameters.put("name", user.getName());
+        parameters.put("created_at", user.getCreatedAt());
+        parameters.put("updated_at", user.getUpdatedAt());
+
         jdbcInsert.execute(new MapSqlParameterSource(parameters));
 
-        return new UserResponseDto(user.getName());
-
-
+        return new UserResponseDto(user.getEmail(), user.getName(), user.getCreatedAt(), user.getUpdatedAt());
     }
 }

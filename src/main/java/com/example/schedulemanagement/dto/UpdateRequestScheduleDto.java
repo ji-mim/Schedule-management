@@ -12,7 +12,7 @@ public class UpdateRequestScheduleDto {
 
     private String password;
 
-    private String username;
+    private String userEmail;
 
     private String contents;
 }

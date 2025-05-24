@@ -27,7 +27,7 @@ public class ScheduleController {
         ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(
                 requestDto.getPassword(),
                 requestDto.getContents(),
-                requestDto.getUsername(),
+                requestDto.getUserEmail(),
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
@@ -36,11 +36,11 @@ public class ScheduleController {
 
     @GetMapping
     ResponseEntity<List<ScheduleResponseDto>> findAllSchedule(
-            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String userEmail,
             @RequestParam(required = false) LocalDate updatedAt
     ) {
         LocalDateTime updatedDateTime = updatedAt != null ? updatedAt.atStartOfDay() : null;
-        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll(username, updatedDateTime);
+        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll(userEmail, updatedDateTime);
 
         return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
     }
@@ -57,7 +57,7 @@ public class ScheduleController {
             @PathVariable Long id,
             @RequestBody UpdateRequestScheduleDto requestDto
     ) {
-        ScheduleResponseDto scheduleResponseDto = scheduleService.updateSchedule(id, requestDto.getPassword(), requestDto.getUsername(), requestDto.getContents(), LocalDateTime.now());
+        ScheduleResponseDto scheduleResponseDto = scheduleService.updateSchedule(id, requestDto.getPassword(), requestDto.getUserEmail(), requestDto.getContents(), LocalDateTime.now());
 
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
     }
