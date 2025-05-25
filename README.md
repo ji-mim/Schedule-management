@@ -13,8 +13,11 @@
 | 일정 삭제    | DELETE | `/schedules/{scheduleId}` | 요청 body        | 없음     | 200 OK       | ID가 존재하지 않거나 비밀번호가 불일치할 때, 비밀번호가 누락될 때                                       |
 | 일정 페이징 조회 | GET    | `/schedules/page`         | 쿼리 param (userEmail, updatedAt, page, size) | 페이징된 일정 목록 | 200 OK       | email이나 updatedAt에 해당하는 결과가 없으면 빈 배열 반환, 페이지 범위 초과 시 빈 배열                    |
 
+- 일정 수정시 username 수정하는게 원래 요구사항이었지만 email을 외래키로 바꾸면서 username을 scheddule에서 바꾸는 것이 비효율적이라고 생각했습니다. 
+- 그래서 schedule에서는 email을 바꾸게 하고 UserController에 username을 바꿀 수 있는 API를 추가했습니다.
 
 
 # ERD 
 
-![ERD]()
+<img src="https://github.com/user-attachments/assets/2bc9911d-1f86-40c1-97d7-7c12a4309406" width="300" height="500"/>
+
