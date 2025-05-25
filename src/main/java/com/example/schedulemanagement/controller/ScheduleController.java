@@ -5,6 +5,7 @@ import com.example.schedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class ScheduleController {
 
     // LV.1 시작
     @PostMapping
-    ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody CreateRequestScheduleDto requestDto) {
+    ResponseEntity<ScheduleResponseDto> saveSchedule(@Validated @RequestBody CreateRequestScheduleDto requestDto) {
         ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(
                 requestDto.getPassword(),
                 requestDto.getContents(),
@@ -52,7 +53,7 @@ public class ScheduleController {
     @PatchMapping("/{id}")
     ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
-            @RequestBody UpdateRequestScheduleDto requestDto
+            @Validated @RequestBody UpdateRequestScheduleDto requestDto
     ) {
         ScheduleResponseDto scheduleResponseDto = scheduleService.updateSchedule(id, requestDto.getPassword(), requestDto.getUserEmail(), requestDto.getContents(), LocalDateTime.now());
 
@@ -61,7 +62,7 @@ public class ScheduleController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteSchedule(@PathVariable Long id,
-                                        @RequestBody DeleteRequestScheduleDto requestScheduleDto) {
+                                        @Validated @RequestBody DeleteRequestScheduleDto requestScheduleDto) {
         scheduleService.deleteSchedule(id, requestScheduleDto.getPassword());
 
         return new ResponseEntity<>(HttpStatus.OK);
