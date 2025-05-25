@@ -13,3 +13,8 @@
 | 일정 삭제    | DELETE | `/schedules/{scheduleId}` | 요청 body        | 없음     | 200 OK       | ID가 존재하지 않거나 비밀번호가 불일치할 때, 비밀번호가 누락될 때                                       |
 | 일정 페이징 조회 | GET    | `/schedules/page`         | 쿼리 param (userEmail, updatedAt, page, size) | 페이징된 일정 목록 | 200 OK       | email이나 updatedAt에 해당하는 결과가 없으면 빈 배열 반환, 페이지 범위 초과 시 빈 배열                    |
 
+
+
+# ERD 
+
+![ERD]()
