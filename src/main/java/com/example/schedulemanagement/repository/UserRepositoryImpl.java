@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,12 @@ public class UserRepositoryImpl implements UserRepository {
             log.warn("조회 실패: 존재하지 않는 email {}", email);
             return new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists email = " + email);
         });
+    }
+
+    @Override
+    public void updateUserName(String email, String username, LocalDateTime updatedAt) {
+
+        jdbcTemplate.update("UPDATE user SET name = ? , updated_at = ? WHERE email = ?", username, updatedAt, email);
     }
 
 

@@ -21,4 +21,20 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
 
     }
+
+    @Override
+    public UserResponseDto findUser(String email) {
+        User findUser = userRepository.findByIdOrElseThrow(email);
+
+        return new UserResponseDto(email, findUser.getName(), findUser.getCreatedAt(), findUser.getUpdatedAt());
+    }
+
+    @Override
+    public UserResponseDto updateUserName(String email, String username, LocalDateTime updatedAt) {
+        User findUser = userRepository.findByIdOrElseThrow(email);
+
+        userRepository.updateUserName(email, username, updatedAt);
+
+        return new UserResponseDto(email, username, findUser.getCreatedAt(), updatedAt);
+    }
 }

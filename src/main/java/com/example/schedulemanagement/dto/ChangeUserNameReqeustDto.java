@@ -1,5 +1,6 @@
 package com.example.schedulemanagement.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +11,6 @@ import lombok.Setter;
 
 public class ChangeUserNameReqeustDto {
 
-    private String password;
-
-    private String userEmail;
-
     private String username;
-
-    private String contents;
 
 }
