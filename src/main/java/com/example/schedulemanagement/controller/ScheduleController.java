@@ -50,6 +50,7 @@ public class ScheduleController {
     }
 
     //LV.2 시작
+    // username 변경에서 email 변경으로 교체, username은 UserController에서 진행
     @PatchMapping("/{id}")
     ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
