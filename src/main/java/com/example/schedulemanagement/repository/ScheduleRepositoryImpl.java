@@ -97,6 +97,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     }
 
+    @Override
+    public Long countSchedules(String userEmail, LocalDateTime updatedAt) {
+        String sql = "SELECT count(*) FROM schedule s WHERE s.user_email = ? OR DATE(s.updated_at) = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{userEmail, updatedAt}, Long.class);
+    }
+
 
     //Dto 반환
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {

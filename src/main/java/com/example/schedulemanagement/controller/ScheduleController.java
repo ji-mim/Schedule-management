@@ -68,7 +68,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/page")
-    ResponseEntity<List<PagedScheduleResponseDto>> findAllScheduleByPage(
+    ResponseEntity<PagingResponse<PagedScheduleResponseDto>> findAllScheduleByPage(
             @RequestParam(required = false) String userEmail,
             @RequestParam(required = false) LocalDate updatedAt,
             @RequestParam(defaultValue = "0") int page,
@@ -78,8 +78,12 @@ public class ScheduleController {
 
         List<PagedScheduleResponseDto> scheduleResponseDtoList = scheduleService.findPagedSchedules(userEmail, updatedDateTime, page, size);
 
+        Long totalElements = scheduleService.countSchedules(userEmail, updatedDateTime);
 
-        return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
+        PagingResponse<PagedScheduleResponseDto> pagingResponse = new PagingResponse<>(scheduleResponseDtoList, page, size, totalElements);
+
+
+        return new ResponseEntity<>(pagingResponse, HttpStatus.OK);
     }
 
 }

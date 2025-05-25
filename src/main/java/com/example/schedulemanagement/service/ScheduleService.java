@@ -18,4 +18,6 @@ public interface ScheduleService {
     void deleteSchedule(Long id, String password);
 
     List<PagedScheduleResponseDto> findPagedSchedules(String userEmail, LocalDateTime updatedAt, int page, int size);
+
+    Long countSchedules(String userEmail, LocalDateTime updatedAt);
 }

@@ -19,4 +19,6 @@ public interface ScheduleRepository {
     void deleteSchedule(Long id);
 
     List<PagedScheduleResponseDto> findPagedSchedules(String userEmail, LocalDateTime updatedAt, int page, int size);
+
+    Long countSchedules(String userEmail, LocalDateTime updatedAt);
 }

@@ -79,4 +79,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<PagedScheduleResponseDto> findPagedSchedules(String userEmail, LocalDateTime updatedAt, int page, int size) {
         return scheduleRepository.findPagedSchedules(userEmail, updatedAt, page, size);
     }
+
+    @Override
+    public Long countSchedules(String userEmail, LocalDateTime updatedAt) {
+        return scheduleRepository.countSchedules(userEmail, updatedAt);
+    }
 }
